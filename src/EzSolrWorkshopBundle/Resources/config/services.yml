@@ -1,0 +1,19 @@
+parameters:
+
+services:
+    ezsolr.controller.workshop:
+        class: EzSolrWorkshopBundle\Controller\WorkshopController
+        arguments:
+            - '@ezpublish.api.service.search'
+            - '@ezpublish.api.service.content_type'
+        calls:
+            - [setContainer, ['@service_container']]
+
+    search.field_mapper.content_translation.project_parent:
+        class: EzSolrWorkshopBundle\Core\FieldMapper\ContentTranslation\ProjectParentFieldMapper
+        arguments:
+            - '@ezpublish.spi.persistence.content_handler'
+            - '@ezpublish.spi.persistence.location_handler'
+            - '@ezpublish.spi.persistence.content_type_handler'
+        tags:
+            - {name: ezpublish.search.solr.field_mapper.content_translation}

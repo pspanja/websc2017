@@ -42,3 +42,5 @@ _multiFileUpload:
     resource: "@EzSystemsMultiFileUploadBundle/Resources/config/routing.yml"
     prefix:   "%ezpublish_rest.path_prefix%"
 
+_ez_solr_workshop:
+    resource: "@EzSolrWorkshopBundle/Resources/config/routing.yml"

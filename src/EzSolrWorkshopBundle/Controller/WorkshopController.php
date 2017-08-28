@@ -211,7 +211,7 @@ class WorkshopController extends Controller
             'limit' => 15,
             'sort' => CustomFieldFacetBuilder::COUNT_DESC,
             'name' => 'type',
-            'fieldName' => 'content_type_id_id',
+            'fieldName' => 'image_name_cs_value_css',
         ]);
 
         $query = new Query([

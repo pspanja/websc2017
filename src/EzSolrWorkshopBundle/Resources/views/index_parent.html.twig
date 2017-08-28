@@ -1,0 +1,12 @@
+<h1>Index parent Content data</h1>
+
+<p>Total found: {{ search_result.totalCount }}</p>
+
+<hr/>
+
+<ol>
+{% for searchHit in search_result.searchHits %}
+    {% set content_type_id = searchHit.valueObject.contentInfo.contentTypeId %}
+    <li>[{{ content_type_map[content_type_id] }}] {{ searchHit.valueObject.contentInfo.name }}</li>
+{% endfor %}
+</ol>

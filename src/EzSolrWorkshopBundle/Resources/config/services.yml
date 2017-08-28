@@ -1,4 +1,5 @@
 parameters:
+    ezpublish.persistence.field_type_registry.class: EzSolrWorkshopBundle\Core\Persistence\FieldTypeRegistry
 
 services:
     ezsolr.controller.workshop:
@@ -17,3 +18,21 @@ services:
             - '@ezpublish.spi.persistence.content_type_handler'
         tags:
             - {name: ezpublish.search.solr.field_mapper.content_translation}
+
+    search.field_mapper.content.is_field_empty:
+        class: EzSolrWorkshopBundle\Core\FieldMapper\Content\IsFieldEmptyFieldMapper
+        arguments:
+            - '@ezpublish.spi.persistence.content_type_handler'
+            - '@ezpublish.search.common.field_name_generator'
+            - '@ezpublish.persistence.field_type_registry'
+        tags:
+            - {name: ezpublish.search.solr.field_mapper.content}
+
+    search.criterion_visitor.is_field_empty:
+        class: EzSolrWorkshopBundle\Core\CriterionVisitor\IsFieldEmpty
+        arguments:
+            - '@ezpublish.spi.persistence.content_type_handler'
+            - '@ezpublish.search.common.field_name_generator'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
+            - {name: ezpublish.search.solr.query.location.criterion_visitor}

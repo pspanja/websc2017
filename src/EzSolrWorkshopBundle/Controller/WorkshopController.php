@@ -6,6 +6,7 @@ use eZ\Publish\API\Repository\ContentTypeService;
 use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use EzSolrWorkshopBundle\API\Criterion\IsFieldEmpty;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class WorkshopController extends Controller
@@ -46,6 +47,33 @@ class WorkshopController extends Controller
 
         return $this->render(
             'EzSolrWorkshopBundle::index_parent.html.twig',
+            [
+                'search_result' => $searchResult,
+                'content_type_map' => $this->getContentTypeIdentifierMap(),
+            ]
+        );
+    }
+
+    /**
+     * Index info on whether the Content field is empty.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \InvalidArgumentException
+     */
+    public function isEmptyFieldAction()
+    {
+        $query = new Query([
+            'filter' => new Criterion\LogicalAnd([
+                new Criterion\ContentTypeIdentifier('image'),
+                new IsFieldEmpty('caption', IsFieldEmpty::IS_NOT_EMPTY),
+            ]),
+        ]);
+
+        $searchResult = $this->searchService->findContent($query);
+
+        return $this->render(
+            'EzSolrWorkshopBundle::is_field_empty.html.twig',
             [
                 'search_result' => $searchResult,
                 'content_type_map' => $this->getContentTypeIdentifierMap(),

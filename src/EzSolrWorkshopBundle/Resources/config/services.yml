@@ -80,3 +80,9 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
+
+    search.facet_builder_visitor.custom_field:
+        class: EzSolrWorkshopBundle\Core\FacetBuilderVisitor\CustomFieldFacetBuilderVisitor
+        tags:
+            - {name: ezpublish.search.solr.query.content.facet_builder_visitor}
+            - {name: ezpublish.search.solr.query.location.facet_builder_visitor}

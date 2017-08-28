@@ -1,0 +1,9 @@
+<h1>CustomField Facet</h1>
+
+<hr/>
+
+<ul>
+{% for key, entry in search_result.facets[0].entries %}
+    <li>{{ content_type_map[key] }} ({{ entry }})</li>
+{% endfor %}
+</ul>

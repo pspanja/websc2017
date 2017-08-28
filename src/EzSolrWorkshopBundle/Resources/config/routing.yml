@@ -27,3 +27,8 @@ more_like_this:
     path: /MoreLikeThis
     defaults:
         _controller: 'ezsolr.controller.workshop:moreLikeThisAction'
+
+custom_field_facet:
+    path: /CustomFieldFacet
+    defaults:
+        _controller: 'ezsolr.controller.workshop:customFieldFacetAction'

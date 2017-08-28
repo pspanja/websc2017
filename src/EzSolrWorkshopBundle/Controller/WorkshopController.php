@@ -9,6 +9,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use EzSolrWorkshopBundle\API\Criterion\IsFieldEmpty;
 use EzSolrWorkshopBundle\API\Criterion\LocationQuery as LocationQueryCriterion;
 use EzSolrWorkshopBundle\API\Criterion\MoreLikeThis;
+use EzSolrWorkshopBundle\API\FacetBuilder\CustomFieldFacetBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -190,6 +191,37 @@ class WorkshopController extends Controller
 
         return $this->render(
             'EzSolrWorkshopBundle::more_like_this.html.twig',
+            [
+                'search_result' => $searchResult,
+                'content_type_map' => $this->getContentTypeIdentifierMap(),
+            ]
+        );
+    }
+
+    /**
+     * Search with CustomField Facet.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \InvalidArgumentException
+     */
+    public function customFieldFacetAction()
+    {
+        $facetBuilder = new CustomFieldFacetBuilder([
+            'limit' => 15,
+            'sort' => CustomFieldFacetBuilder::COUNT_DESC,
+            'name' => 'type',
+            'fieldName' => 'content_type_id_id',
+        ]);
+
+        $query = new Query([
+            'facetBuilders' => [$facetBuilder],
+        ]);
+
+        $searchResult = $this->searchService->findContent($query);
+
+        return $this->render(
+            'EzSolrWorkshopBundle::custom_field_facet.html.twig',
             [
                 'search_result' => $searchResult,
                 'content_type_map' => $this->getContentTypeIdentifierMap(),

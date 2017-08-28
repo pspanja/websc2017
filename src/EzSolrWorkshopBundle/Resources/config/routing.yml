@@ -12,3 +12,8 @@ index_children:
     path: /IndexChildren
     defaults:
         _controller: 'ezsolr.controller.workshop:indexChildrenAction'
+
+location_query_criterion:
+    path: /LocationQueryCriterion
+    defaults:
+        _controller: 'ezsolr.controller.workshop:locationQueryCriterionAction'

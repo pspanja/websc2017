@@ -82,6 +82,29 @@ class WorkshopController extends Controller
     }
 
     /**
+     * Index children data for Fulltext search.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     */
+    public function indexChildrenAction()
+    {
+        $query = new Query([
+            'query' => new Criterion\FullText('dufresne')
+        ]);
+
+        $searchResult = $this->searchService->findContent($query);
+
+        return $this->render(
+            'EzSolrWorkshopBundle::index_children.html.twig',
+            [
+                'search_result' => $searchResult,
+                'content_type_map' => $this->getContentTypeIdentifierMap(),
+            ]
+        );
+    }
+
+    /**
      * Return a map of ContentType id to identifier.
      *
      * @return array

@@ -7,3 +7,8 @@ is_empty_field:
     path: /IsFieldEmpty
     defaults:
         _controller: 'ezsolr.controller.workshop:isEmptyFieldAction'
+
+index_children:
+    path: /IndexChildren
+    defaults:
+        _controller: 'ezsolr.controller.workshop:indexChildrenAction'

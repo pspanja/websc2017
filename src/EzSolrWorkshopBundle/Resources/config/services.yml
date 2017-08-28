@@ -36,3 +36,29 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
             - {name: ezpublish.search.solr.query.location.criterion_visitor}
+
+    search.field_mapper.content_translation.blog_children:
+        class: EzSolrWorkshopBundle\Core\FieldMapper\ContentTranslation\BlogChildrenFieldMapper
+        arguments:
+            - '@search.repository.filter_service'
+        tags:
+            - {name: ezpublish.search.solr.field_mapper.content_translation}
+
+    search.inner_repository:
+        class: '%ezpublish.api.inner_repository.class%'
+        factory:
+            - '@ezpublish.api.repository.factory'
+            - buildRepository
+        arguments:
+            - '@ezpublish.api.persistence_handler'
+            - '@ezpublish.spi.search.legacy'
+        lazy: true
+        public: false
+
+    search.repository.filter_service:
+        class: '%ezpublish.api.service.search.class%'
+        factory:
+            - '@search.inner_repository'
+            - getSearchService
+        lazy: true
+        public: false

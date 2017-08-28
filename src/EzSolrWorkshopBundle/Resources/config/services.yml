@@ -72,3 +72,11 @@ services:
             - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
         tags:
             - {name: ezpublish.search.solr.query.content.criterion_visitor}
+
+    search.criterion_visitor.more_like_this:
+        class: EzSolrWorkshopBundle\Core\CriterionVisitor\MoreLikeThis
+        arguments:
+            - '@ezpublish.search.solr.document_mapper'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}
+            - {name: ezpublish.search.solr.query.location.criterion_visitor}

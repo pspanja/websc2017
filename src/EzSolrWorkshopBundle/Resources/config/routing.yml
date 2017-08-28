@@ -22,3 +22,8 @@ better_fulltext:
     path: /BetterFulltext
     defaults:
         _controller: 'ezsolr.controller.workshop:betterFulltextAction'
+
+more_like_this:
+    path: /MoreLikeThis
+    defaults:
+        _controller: 'ezsolr.controller.workshop:moreLikeThisAction'

@@ -8,6 +8,7 @@ use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use EzSolrWorkshopBundle\API\Criterion\IsFieldEmpty;
 use EzSolrWorkshopBundle\API\Criterion\LocationQuery as LocationQueryCriterion;
+use EzSolrWorkshopBundle\API\Criterion\MoreLikeThis;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -165,6 +166,32 @@ class WorkshopController extends Controller
             [
                 'search_result' => $searchResult,
                 'query_string' => $queryString,
+                'content_type_map' => $this->getContentTypeIdentifierMap(),
+            ]
+        );
+    }
+
+    /**
+     * Search with MoreLikeThis criterion.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \InvalidArgumentException
+     */
+    public function moreLikeThisAction()
+    {
+        $query = new Query([
+            'filter' => new Criterion\LogicalAnd([
+                new MoreLikeThis(79, 'engGB'),
+            ])
+        ]);
+
+        $searchResult = $this->searchService->findContent($query);
+
+        return $this->render(
+            'EzSolrWorkshopBundle::more_like_this.html.twig',
+            [
+                'search_result' => $searchResult,
                 'content_type_map' => $this->getContentTypeIdentifierMap(),
             ]
         );

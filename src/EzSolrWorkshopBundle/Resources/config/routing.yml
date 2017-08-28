@@ -2,3 +2,8 @@ index_parent:
     path: /IndexParent
     defaults:
         _controller: 'ezsolr.controller.workshop:indexParentAction'
+
+is_empty_field:
+    path: /IsFieldEmpty
+    defaults:
+        _controller: 'ezsolr.controller.workshop:isEmptyFieldAction'

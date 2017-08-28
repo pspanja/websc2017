@@ -10,6 +10,7 @@ use EzSolrWorkshopBundle\API\Criterion\IsFieldEmpty;
 use EzSolrWorkshopBundle\API\Criterion\LocationQuery as LocationQueryCriterion;
 use EzSolrWorkshopBundle\API\Criterion\MoreLikeThis;
 use EzSolrWorkshopBundle\API\FacetBuilder\CustomFieldFacetBuilder;
+use EzSolrWorkshopBundle\API\FacetBuilder\FieldPrefixFacetBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -226,6 +227,38 @@ class WorkshopController extends Controller
                 'search_result' => $searchResult,
                 'content_type_map' => $this->getContentTypeIdentifierMap(),
             ]
+        );
+    }
+
+    /**
+     * Autocomplete through FieldPrefix Facet.
+     *
+     * @param string $prefix
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \InvalidArgumentException
+     */
+    public function autocompleteAction($prefix)
+    {
+        $query = new Query([
+            'filter' => new Criterion\ContentTypeIdentifier('image'),
+            'limit' => 0,
+            'facetBuilders' => [
+                new FieldPrefixFacetBuilder([
+                    'name' => 'autocomplete',
+                    'prefix' => strtolower($prefix),
+                    'fieldName' => 'meta_content__text_t',
+                    'limit' => 10,
+                ]),
+            ],
+        ]);
+
+        $searchResult = $this->searchService->findContent($query);
+
+        return $this->render(
+            'EzSolrWorkshopBundle::field_prefix_facet.html.twig',
+            ['search_result' => $searchResult]
         );
     }
 

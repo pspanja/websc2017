@@ -1,0 +1,9 @@
+<h1>Autocomplete through FieldPrefix Facet</h1>
+
+<hr/>
+
+<ul>
+    {% for key, entry in search_result.facets[0].entries %}
+        <li>{{ key }} ({{ entry }})</li>
+    {% endfor %}
+</ul>

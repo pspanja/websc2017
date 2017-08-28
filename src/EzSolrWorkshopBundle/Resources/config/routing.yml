@@ -32,3 +32,8 @@ custom_field_facet:
     path: /CustomFieldFacet
     defaults:
         _controller: 'ezsolr.controller.workshop:customFieldFacetAction'
+
+autocomplete:
+    path: /Autocomplete/{prefix}
+    defaults:
+        _controller: 'ezsolr.controller.workshop:autocompleteAction'

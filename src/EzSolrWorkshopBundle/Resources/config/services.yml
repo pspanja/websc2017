@@ -108,3 +108,9 @@ services:
         tags:
             - {name: ezpublish.search.solr.query.content.facet_builder_visitor}
             - {name: ezpublish.search.solr.query.location.facet_builder_visitor}
+
+    search.facet_builder_visitor.field_prefix:
+        class: EzSolrWorkshopBundle\Core\FacetBuilderVisitor\FieldPrefixFacetBuilderVisitor
+        tags:
+            - {name: ezpublish.search.solr.query.content.facet_builder_visitor}
+            - {name: ezpublish.search.solr.query.location.facet_builder_visitor}

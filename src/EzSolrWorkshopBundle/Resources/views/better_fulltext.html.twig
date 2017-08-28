@@ -1,0 +1,19 @@
+<h1>Better Fulltext search with Query Translator</h1>
+
+<form action="" method="post">
+    <label for="query_string"></label>
+    <input name="query_string" id="query_string" value="{{ query_string }}" size="80" />
+    <button>search</button>
+</form>
+
+<p>Total found: {{ search_result.totalCount }}</p>
+
+<hr/>
+
+<ol>
+    {% for searchHit in search_result.searchHits %}
+        {% set content_type_id = searchHit.valueObject.contentInfo.contentTypeId %}
+        <li>[{{ content_type_map[content_type_id] }}] {{ searchHit.valueObject.contentInfo.name }}</li>
+    {% endfor %}
+</ol>
+

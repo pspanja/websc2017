@@ -1,3 +1,6 @@
+imports:
+     - {resource: query_translator.yml}
+
 parameters:
     ezpublish.persistence.field_type_registry.class: EzSolrWorkshopBundle\Core\Persistence\FieldTypeRegistry
 

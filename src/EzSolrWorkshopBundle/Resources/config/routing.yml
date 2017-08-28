@@ -17,3 +17,8 @@ location_query_criterion:
     path: /LocationQueryCriterion
     defaults:
         _controller: 'ezsolr.controller.workshop:locationQueryCriterionAction'
+
+better_fulltext:
+    path: /BetterFulltext
+    defaults:
+        _controller: 'ezsolr.controller.workshop:betterFulltextAction'

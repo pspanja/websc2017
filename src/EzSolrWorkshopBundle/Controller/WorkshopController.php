@@ -9,6 +9,7 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use EzSolrWorkshopBundle\API\Criterion\IsFieldEmpty;
 use EzSolrWorkshopBundle\API\Criterion\LocationQuery as LocationQueryCriterion;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class WorkshopController extends Controller
 {
@@ -135,6 +136,35 @@ class WorkshopController extends Controller
             'EzSolrWorkshopBundle::location_query_criterion.html.twig',
             [
                 'search_result' => $searchResult,
+                'content_type_map' => $this->getContentTypeIdentifierMap(),
+            ]
+        );
+    }
+
+    /**
+     * Search with improved Fulltext criterion.
+     *
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \InvalidArgumentException
+     */
+    public function betterFulltextAction(Request $request)
+    {
+        $queryString = $request->request->get('query_string');
+        $query = new Query([
+            'query' => new Criterion\FullText($queryString),
+            'filter' => new Criterion\ContentTypeIdentifier('image'),
+        ]);
+
+        $searchResult = $this->searchService->findContent($query);
+
+        return $this->render(
+            'EzSolrWorkshopBundle::better_fulltext.html.twig',
+            [
+                'search_result' => $searchResult,
+                'query_string' => $queryString,
                 'content_type_map' => $this->getContentTypeIdentifierMap(),
             ]
         );

@@ -62,3 +62,10 @@ services:
             - getSearchService
         lazy: true
         public: false
+
+    search.criterion_visitor.location_query:
+        class: EzSolrWorkshopBundle\Core\CriterionVisitor\LocationQuery
+        arguments:
+            - '@ezpublish.search.solr.query.location.criterion_visitor.aggregate'
+        tags:
+            - {name: ezpublish.search.solr.query.content.criterion_visitor}

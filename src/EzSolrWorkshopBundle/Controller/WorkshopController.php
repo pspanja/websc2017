@@ -7,6 +7,7 @@ use eZ\Publish\API\Repository\SearchService;
 use eZ\Publish\API\Repository\Values\Content\Query;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use EzSolrWorkshopBundle\API\Criterion\IsFieldEmpty;
+use EzSolrWorkshopBundle\API\Criterion\LocationQuery as LocationQueryCriterion;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class WorkshopController extends Controller
@@ -97,6 +98,41 @@ class WorkshopController extends Controller
 
         return $this->render(
             'EzSolrWorkshopBundle::index_children.html.twig',
+            [
+                'search_result' => $searchResult,
+                'content_type_map' => $this->getContentTypeIdentifierMap(),
+            ]
+        );
+    }
+
+    /**
+     * Search with LocationQuery Criterion.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \eZ\Publish\API\Repository\Exceptions\InvalidArgumentException
+     * @throws \InvalidArgumentException
+     */
+    public function locationQueryCriterionAction()
+    {
+        $query = new Query([
+            'filter' => new Criterion\LogicalAnd([
+                new Criterion\ContentId(62),
+                new LocationQueryCriterion(
+                    new Criterion\LogicalAnd([
+                        new Criterion\LocationId(64),
+                        new Criterion\Visibility(Criterion\Visibility::HIDDEN),
+                    ])
+                ),
+                new LocationQueryCriterion(
+                    new Criterion\Visibility(Criterion\Visibility::VISIBLE)
+                )
+            ]),
+        ]);
+
+        $searchResult = $this->searchService->findContent($query);
+
+        return $this->render(
+            'EzSolrWorkshopBundle::location_query_criterion.html.twig',
             [
                 'search_result' => $searchResult,
                 'content_type_map' => $this->getContentTypeIdentifierMap(),
